@@ -22,6 +22,4 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @NonNull
     Optional<Patient> findPatientByPhone(@NonNull String phone);
 
-    @NonNull
-    List<Patient> findAllByOrderByAge(@NonNull Integer age);
 }

@@ -2,6 +2,8 @@ package com.api.healthapi.repositories;
 
 import com.api.healthapi.models.Patient;
 import io.micrometer.common.lang.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Optional<Patient> findPatientById(@NonNull Integer id);
 
     @NonNull
-    Optional<Patient> findPatientByName(String name);
+    Page<Patient> findPatientByName(String name, Pageable pageable);
 
     @NonNull
     Optional<Patient> findPatientByEmail(@NonNull String email);

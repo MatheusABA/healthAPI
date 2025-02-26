@@ -1,9 +1,6 @@
 package com.api.healthapi.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.security.SignatureException;
 import java.util.Date;
 
 
@@ -62,7 +60,10 @@ public class JWTUtil {
         }
 
         // Builds the JWT and serializes it to a compact, URL-safe string
-        return builder.compact();
+//        return builder.compact();
+        String token = builder.compact();
+//        log.info("Generated JWT: {}", token);
+        return token;
     }
 
     /**
@@ -94,4 +95,14 @@ public class JWTUtil {
 
         return claims.getId();
     }
+
+
+    public boolean checkToken(String token) {
+
+        String userId = getKey(token);
+        return userId != null;
+
+    }
+
+
 }

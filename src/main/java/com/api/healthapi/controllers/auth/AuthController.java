@@ -1,13 +1,15 @@
-package com.api.healthapi.controllers;
+package com.api.healthapi.controllers.auth;
 
 
 import com.api.healthapi.dto.LoginRequest;
 import com.api.healthapi.models.Receptionist;
 import com.api.healthapi.services.ReceptionistService;
+import com.api.healthapi.utils.JWTUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,23 +21,22 @@ public class AuthController {
 
     private final ReceptionistService receptionistService;
 
-
     public AuthController(ReceptionistService receptionistService) {
         this.receptionistService = receptionistService;
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<Map<String,String>> login(@RequestBody LoginRequest loginRequest) {
         try {
 
             String token = receptionistService.authenticateReceptionist(loginRequest.getEmail(), loginRequest.getPassword());
 
             if ("Invalid or expired token".equals(token) || token == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Invalid credentials!"));
             }
 
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(Map.of("token", token));
 
         } catch (RuntimeException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -53,13 +54,20 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is already taken");
             }
 
+            // Create new receptionist and save on DB
             Receptionist createdReceptionist = receptionistService.createReceptionist(receptionist);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdReceptionist);
+
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
 
         } catch (RuntimeException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
-            throw new RuntimeException(e);
+            return new ResponseEntity<>("Error creating user", HttpStatus.BAD_REQUEST);
         }
     }
+
+
+
+
 
 }

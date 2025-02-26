@@ -1,12 +1,15 @@
 package com.api.healthapi.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 public class Doctor {
 
     @Id
@@ -17,10 +20,20 @@ public class Doctor {
 
     private String specialty;
 
+    @Column(unique = true)
     private String crm;
 
+    @Column(unique = true)
     private String email;
 
     private String phone;
+
+    private LocalDateTime createdAt;
+
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
 
 }

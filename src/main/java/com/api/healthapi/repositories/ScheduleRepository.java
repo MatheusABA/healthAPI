@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ScheduleRepository extends CrudRepository<Schedule, Integer> {
 
+    // Find schedules by date time
+    List<Schedule> findScheduleByDate(LocalDate date);
 
     // Find schedules by doctor id
     List<Schedule> findScheduleByDoctorId(Integer doctorId);
@@ -16,6 +18,7 @@ public interface ScheduleRepository extends CrudRepository<Schedule, Integer> {
     // Find schedules by patient id
     List<Schedule> findScheduleByPatientId(Integer patientId);
 
-    // Find schedules by date time
-    List<Schedule> findScheduleByDate(LocalDate date);
+    boolean deleteScheduleById(Integer id);
+
+
 }

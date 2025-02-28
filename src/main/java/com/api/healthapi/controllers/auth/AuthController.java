@@ -36,8 +36,8 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error","Invalid credentials!"));
             }
 
-            return ResponseEntity.ok(Map.of("token", token));
-
+//            return ResponseEntity.ok(Map.of("status",200).Map.of("token", token));
+            return ResponseEntity.status(HttpStatus.OK).body(Map.of("token", token));
         } catch (RuntimeException e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
             throw new RuntimeException(e);

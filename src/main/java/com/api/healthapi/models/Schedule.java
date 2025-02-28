@@ -20,7 +20,9 @@ public class Schedule {
 
     private String time;
 
-    private String reason;
+    private String description;
+
+    private String status;
 
     @ManyToOne
     private Doctor doctor;

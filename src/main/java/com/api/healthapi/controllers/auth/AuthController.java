@@ -4,7 +4,6 @@ package com.api.healthapi.controllers.auth;
 import com.api.healthapi.dto.LoginRequest;
 import com.api.healthapi.models.Receptionist;
 import com.api.healthapi.services.ReceptionistService;
-import com.api.healthapi.utils.JWTUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

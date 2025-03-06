@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Date;
 
 

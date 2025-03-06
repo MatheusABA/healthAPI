@@ -2,16 +2,15 @@ package com.api.healthapi.controllers;
 
 
 
+import com.api.healthapi.dto.ScheduleDTO;
 import com.api.healthapi.models.Schedule;
 import com.api.healthapi.services.ScheduleService;
 import com.api.healthapi.utils.JWTUtil;
-import org.apache.coyote.Response;
-import org.springframework.http.HttpStatus;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -54,12 +53,12 @@ public class ScheduleController {
     }
 
     @PostMapping()
-    public ResponseEntity<Schedule> createSchedule(@RequestBody Schedule schedule, @RequestHeader (value = "Authorization") String token) {
+    public ResponseEntity<Schedule> createSchedule(@RequestBody ScheduleDTO scheduleDTO, @RequestHeader (value = "Authorization") String token) {
         if (!jwtUtil.checkToken(token)) {
             return ResponseEntity.status(403).build();
         }
         try {
-            Schedule scheduleCreated = scheduleService.createSchedule(schedule);
+            Schedule scheduleCreated = scheduleService.createSchedule(scheduleDTO);
             return ResponseEntity.status(201).body(scheduleCreated);
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -112,7 +111,7 @@ public class ScheduleController {
         }
     }
 
-
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteScheduleById(@PathVariable Integer id, @RequestHeader (value = "Authorization") String token) {
         if (!jwtUtil.checkToken(token)) {
@@ -121,7 +120,6 @@ public class ScheduleController {
         try {
             boolean deleted = scheduleService.deleteScheduleById(id);
             return deleted ? ResponseEntity.status(200).build() : ResponseEntity.status(404).build();
-
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
             return ResponseEntity.status(500).build();

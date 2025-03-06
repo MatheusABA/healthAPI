@@ -2,10 +2,8 @@ package com.api.healthapi.controllers;
 
 import com.api.healthapi.controllers.auth.AuthController;
 import com.api.healthapi.models.Patient;
-import com.api.healthapi.repositories.PatientRepository;
 import com.api.healthapi.services.PatientService;
 import com.api.healthapi.utils.JWTUtil;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
